@@ -7,30 +7,27 @@ using System.Threading.Tasks;
 namespace TaskManager
 {
     internal class Program
-    {
-        
+    {        
         static void Main(string[] args)
         {
-            Console.WriteLine("Выберите действие");
-            Console.WriteLine("1. Добавить задачу");
-            Console.WriteLine("2. Просмотр задач");
-            Console.WriteLine("3. Удалить задачу");
-            Console.WriteLine("4. Удалить все задачи");
-            Console.WriteLine("5. Изменить задачу");
-
             while (true)
             {
+
+                Console.WriteLine("Выберите действие");
+                Console.WriteLine("1. Добавить задачу");
+                Console.WriteLine("2. Просмотр задач");
+                Console.WriteLine("3. Удалить задачу");
+                Console.WriteLine("4. Удалить все задачи");
+                Console.WriteLine("5. Изменить задачу");
+           
                 var key = Console.ReadKey();
                 Interaction(key);
                 Console.ReadLine();
-            }
-
-            
+            }            
         }
 
         public static void Interaction(ConsoleKeyInfo key)
-        {
-          
+        { 
 
             switch (key.Key)
             {
@@ -49,8 +46,6 @@ namespace TaskManager
                 case ConsoleKey.D5:
                     TasksManager.EditTask();
                     break;
-
-
             }
 
         }

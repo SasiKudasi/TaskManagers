@@ -14,9 +14,7 @@ namespace TaskManager
 
         static Dictionary<int, string[]> taskDictionary = new Dictionary<int, string[]>();
 
-       
-
-        
+                       
         internal static void AddTask()
         {
             _key = AddKey();
@@ -25,16 +23,12 @@ namespace TaskManager
             TaskReady();
 
             taskDictionary[_key] = new string[] { task.TaskName, task.Priority, task.Status };
-            
-            
+                        
             if(taskDictionary.ContainsKey(_key))
             {
                  _taskData = taskDictionary[_key];
-                Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
-
-                
+                Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");                                
             }
-
         }
 
         private static int AddKey()
@@ -74,13 +68,11 @@ namespace TaskManager
             return task.Priority;
         }
 
-        public static  string TaskReady ()
+        public static string TaskReady ()
         {
-
             Console.WriteLine("Выполнить задачу?");
             Console.WriteLine("1. Задача выполнена");
             Console.WriteLine("2. Задача не выполнена");
-
 
             var key = Console.ReadKey();
             if (CheckStatus(key) == Status.IS_DONE)
@@ -94,12 +86,10 @@ namespace TaskManager
                 return task.Status;
             }
             return task.Status;
-
         }
 
         private static Status CheckStatus(ConsoleKeyInfo key)
         {
-
             Status result = Status.ISNT_DONE;
             switch (key.Key)
             {
@@ -128,16 +118,12 @@ namespace TaskManager
                     result = Priority.LOW; 
                 break;           
             }
-            return result;
-           
-
+            return result;           
         }
 
 
         internal static void BrowseAllTask()
         {
-            Console.WriteLine("");
-
             foreach (var kvp in taskDictionary)
             {
                 int key = kvp.Key;
@@ -145,17 +131,20 @@ namespace TaskManager
                 string[] taskData = taskDictionary[key];
                 Console.WriteLine($"Key: {key}, TaskName: {taskData[0]}, Priority: {taskData[1]}, Status: {taskData[2]}");
             }
-
         }
 
         internal static void DeliteAllTasks()
         {
-            throw new NotImplementedException();
+            taskDictionary.Clear();
         }
 
         internal static void DeliteTask()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Выберите задачу, которую хотите удалить:");
+            BrowseAllTask();
+            int key  = int.Parse(Console.ReadLine());
+            taskDictionary.Remove(key);
+            BrowseAllTask();
         }
 
         internal static void EditTask()
@@ -168,7 +157,6 @@ namespace TaskManager
 
             _taskData = taskDictionary[key];
             
-
             Console.WriteLine("Что вы хотите изменить?");
             Console.WriteLine("1. Задача");
             Console.WriteLine("2. Приоритет");
@@ -190,9 +178,7 @@ namespace TaskManager
                 Console.WriteLine("Укажите готовность");
                 _taskData[2] = TaskReady();
             }
-
             Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
-
         }
     }
 }
