@@ -50,7 +50,7 @@ namespace TaskManager
             task.TaskName = Console.ReadLine();
         }
         
-        public static void GetTaskStatus()
+        public static string GetTaskStatus()
         {
             Console.WriteLine("Выберите приоритет задачи:");
             Console.WriteLine("1. Высокий");
@@ -61,16 +61,17 @@ namespace TaskManager
 
             if (ChousePrioruty(key) == Priority.LOW)
             {
-                task.Priority = "Низкий";
+              return  task.Priority = "Низкий";
             }
             if (ChousePrioruty(key) == Priority.HIGHT)
             {
-                task.Priority = "Высокий";
+              return  task.Priority = "Высокий";
             }
             if (ChousePrioruty(key) == Priority.MEDIUM)
             {
-                task.Priority = "Средний";
+              return  task.Priority = "Средний";
             }
+            return task.Priority;
         }
 
         public static  string TaskReady ()
@@ -168,7 +169,29 @@ namespace TaskManager
             _taskData = taskDictionary[key];
             Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
 
-            Console.WriteLine("");
+            Console.WriteLine("Что вы хотите изменить?");
+            Console.WriteLine("1. Задача");
+            Console.WriteLine("2. Приоритет");
+            Console.WriteLine("3. Статус");
+            
+            var key1 = int.Parse(Console.ReadLine());
+            if(key1 == 1)
+            {
+                Console.WriteLine("Введите задачу");
+                _taskData[0] = Console.ReadLine();
+            }
+            if (key1 == 2)
+            {
+                Console.WriteLine("Укажите приоритет");
+                _taskData[1] =  GetTaskStatus();
+            }
+            if(key1 == 3)
+            {
+                Console.WriteLine("Укажите готовность");
+                _taskData[2] = TaskReady();
+            }
+            
+
         }
     }
 }
