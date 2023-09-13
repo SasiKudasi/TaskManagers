@@ -6,32 +6,33 @@ namespace TaskManager
 {
     public class TasksManager
     {
+        private static int _key;
+
         static Task task = new Task();
-        
+
+        private static string[] _taskData;
+
         static Dictionary<int, string[]> taskDictionary = new Dictionary<int, string[]>();
 
-        static string[] taskMass = {task.TaskName, task.Priority, task.Status};
+       
 
         
         internal static void AddTask()
         {
-            int key = AddKey();
+            _key = AddKey();
             AddTaskName();            
             GetTaskStatus();
             TaskReady();
 
-            taskDictionary[key] = new string[] { task.TaskName, task.Priority, task.Status };
-            
-
-            //taskMass[0] = task.TaskName;
-            //taskMass[1] = task.Priority;
-            //taskMass[2] = task.Status;
+            taskDictionary[_key] = new string[] { task.TaskName, task.Priority, task.Status };
             
             
-            if(taskDictionary.ContainsKey(key))
+            if(taskDictionary.ContainsKey(_key))
             {
-                string[] taskData = taskDictionary[key];
-                Console.WriteLine($"TaskName: {taskData[0]}, Priority: {taskData[1]}, Status: {taskData[2]}");
+                 _taskData = taskDictionary[_key];
+                Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
+
+                
             }
 
         }
@@ -158,7 +159,16 @@ namespace TaskManager
 
         internal static void EditTask()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Выберите задачу");
+
+            BrowseAllTask();
+
+            int key = int.Parse(Console.ReadLine());
+
+            _taskData = taskDictionary[key];
+            Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
+
+            Console.WriteLine("");
         }
     }
 }
