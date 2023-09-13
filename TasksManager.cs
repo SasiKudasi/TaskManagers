@@ -167,7 +167,7 @@ namespace TaskManager
             int key = int.Parse(Console.ReadLine());
 
             _taskData = taskDictionary[key];
-            Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
+            
 
             Console.WriteLine("Что вы хотите изменить?");
             Console.WriteLine("1. Задача");
@@ -190,7 +190,8 @@ namespace TaskManager
                 Console.WriteLine("Укажите готовность");
                 _taskData[2] = TaskReady();
             }
-            
+
+            Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
 
         }
     }
