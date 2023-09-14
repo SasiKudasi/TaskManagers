@@ -199,9 +199,7 @@ namespace TaskManager
             BrowseAllTask();
 
             _key = AddKey();
-
-            //_taskData = _taskDictionary[key];
-            
+                        
             Console.WriteLine("Что вы хотите изменить?");
             Console.WriteLine("1. Задача");
             Console.WriteLine("2. Приоритет");

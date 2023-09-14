@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TaskManager
 {
     internal class Program
-    {        
+    {
         static void Main(string[] args)
         {
             while (true)
@@ -20,15 +20,15 @@ namespace TaskManager
                 Console.WriteLine("4. Удалить задачу");
                 Console.WriteLine("5. Удалить все задачи");
                 Console.WriteLine("6. Изменить задачу");
-           
+
                 var key = Console.ReadKey();
                 Interaction(key);
                 Console.ReadLine();
-            }            
+            }
         }
 
         public static void Interaction(ConsoleKeyInfo key)
-        { 
+        {
 
             switch (key.Key)
             {
