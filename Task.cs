@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskManager
 {
     public  class Task
     {
-        public string TaskName {  get; set; }
-        
+        [Key]
+        public int Id { get; set; } 
+        public string TaskName {  get; set; }        
         public string Priority { get; set; }
         public string Status { get; set; }
+
+
         public Task[] Tasks { get; set; }
         public Task() { }
 

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using ConsoleApp1;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager
 {
     internal class Program
     {
+        public static Task task = new Task();
+
         static void Main(string[] args)
-        {
+        {          
             while (true)
             {
 
