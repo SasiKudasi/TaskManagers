@@ -143,10 +143,10 @@ namespace TaskManager
         public static void SpecificTasks()
         {
             Console.WriteLine("Какие дела вы хотите получить?");
-            Console.WriteLine("1. Вывести все данные");
-            Console.WriteLine("2. Вывести все данные с высоким приоритетом");
-            Console.WriteLine("3. Вывести все данные со средним приоритетом");
-            Console.WriteLine("4. Вывести все данные с низким приоритетом");
+            Console.WriteLine("1. Вывести все дела");
+            Console.WriteLine("2. Вывести все дела с высоким приоритетом");
+            Console.WriteLine("3. Вывести все дела со средним приоритетом");
+            Console.WriteLine("4. Вывести все дела с низким приоритетом");
             Console.WriteLine("5. Вывести все незавершенные дела");
             Console.WriteLine("6. Вывести все завершенные дела");
 
@@ -156,11 +156,9 @@ namespace TaskManager
             if (key == 1)            
                 BrowseAllTask();            
             if (key == 2)            
-                SortPriority("Высокий");
-            
+                SortPriority("Высокий");            
             if (key == 3)            
-                SortPriority("Средний");
-            
+                SortPriority("Средний");                       
             if (key == 4)
                 SortPriority("Низкий");
             if (key == 5)
@@ -169,9 +167,7 @@ namespace TaskManager
                 SortStatus("Выполнено");         
         }
         internal static void BrowseAllTask()
-        {
-            
-
+        {           
             foreach (var kvp in _taskDictionary)
             {
                 Console.WriteLine($"Key: {kvp.Key},name {kvp.Value.TaskName}, priority {kvp.Value.Priority}, status {kvp.Value.Status}");
