@@ -13,16 +13,19 @@ namespace TaskManager
         
         public string Priority { get; set; }
         public string Status { get; set; }
-           
+        public Task[] Tasks { get; set; }
         public Task() { }
 
-        public Task(Task task)
-        { 
-            TaskName = task.TaskName;
-            Priority = task.Priority;
-            Status = task.Status;
-
+        public Task(string taskName, string priority, string status)
+        {
+            TaskName = taskName;
+            Priority = priority;
+            Status = status;
         }
+
+        
+
+       
 
        
     }

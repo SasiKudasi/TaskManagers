@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TaskManager
 {
@@ -8,11 +9,9 @@ namespace TaskManager
     {
         private static int _key;
 
-        static Task task = new Task();
-
-        private static string[] _taskData;
-
-        static Dictionary<int, string[]> taskDictionary = new Dictionary<int, string[]>();
+        private static Task _task = new Task();
+     
+        private static Dictionary<int, Task> _taskDictionary = new Dictionary<int, Task>();
 
                        
         internal static void AddTask()
@@ -22,12 +21,11 @@ namespace TaskManager
             GetTaskStatus();
             TaskReady();
 
-            taskDictionary[_key] = new string[] { task.TaskName, task.Priority, task.Status };
+            _taskDictionary.Add(_key, new Task( _task.TaskName, _task.Priority, _task.Status));
                         
-            if(taskDictionary.ContainsKey(_key))
-            {
-                 _taskData = taskDictionary[_key];
-                Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");                                
+            if(_taskDictionary.ContainsKey(_key))
+            {                
+                Console.WriteLine($"TaskName: {_task.TaskName}, Priority: {_task.Priority}, Status: {_task.Status}");                                
             }
         }
 
@@ -41,7 +39,7 @@ namespace TaskManager
         public static void AddTaskName()
         {
             Console.WriteLine("Введите задачу:");
-            task.TaskName = Console.ReadLine();
+            _task.TaskName = Console.ReadLine();
         }
         
         public static string GetTaskStatus()
@@ -55,17 +53,17 @@ namespace TaskManager
 
             if (ChousePrioruty(key) == Priority.LOW)
             {
-              return  task.Priority = "Низкий";
+              return  _task.Priority = "Низкий";
             }
             if (ChousePrioruty(key) == Priority.HIGHT)
             {
-              return  task.Priority = "Высокий";
+              return  _task.Priority = "Высокий";
             }
             if (ChousePrioruty(key) == Priority.MEDIUM)
             {
-              return  task.Priority = "Средний";
+              return  _task.Priority = "Средний";
             }
-            return task.Priority;
+            return _task.Priority;
         }
 
         public static string TaskReady ()
@@ -77,15 +75,15 @@ namespace TaskManager
             var key = Console.ReadKey();
             if (CheckStatus(key) == Status.IS_DONE)
             {
-                task.Status = "Выполнено";
-                return task.Status;
+                _task.Status = "Выполнено";
+                return _task.Status;
             } 
             if(CheckStatus(key) == Status.ISNT_DONE)
             {
-                task.Status = "Не выполнено";
-                return task.Status;
+                _task.Status = "Не выполнено";
+                return _task.Status;
             }
-            return task.Status;
+            return _task.Status;
         }
 
         private static Status CheckStatus(ConsoleKeyInfo key)
@@ -121,21 +119,47 @@ namespace TaskManager
             return result;           
         }
 
+        public static void SpecificTasks()
+        {
+            Console.WriteLine("Какие дела вы хотите получить?");
+            Console.WriteLine("1. Вывести все данные");
+            Console.WriteLine("2. Вывести все данные с высоким приоритетом");
+            Console.WriteLine("3. Вывести все данные со средним приоритетом");
+            Console.WriteLine("4. Вывести все данные с низким приоритетом");
+            Console.WriteLine("5. Вывести все незавершенные дела");
+            Console.WriteLine("5. Вывести все завершенные дела");
 
+            int key = int.Parse( Console.ReadLine());           
+
+            if (key == 1)
+            {
+                BrowseAllTask();
+            }
+            if(key == 2)
+            {
+                 
+              var hidePriority = _taskDictionary.Values.Where(task => task.Priority == "Высокий");
+
+               foreach (var task in hidePriority)
+                 {
+                    Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+                }
+                
+            }
+        }
         internal static void BrowseAllTask()
         {
-            foreach (var kvp in taskDictionary)
-            {
-                int key = kvp.Key;
+            
 
-                string[] taskData = taskDictionary[key];
-                Console.WriteLine($"Key: {key}, TaskName: {taskData[0]}, Priority: {taskData[1]}, Status: {taskData[2]}");
+            foreach (var kvp in _taskDictionary)
+            {
+                Console.WriteLine($"Key: {kvp.Key},name {kvp.Value.TaskName}, priority {kvp.Value.Priority}, status {kvp.Value.Status}");
             }
         }
 
         internal static void DeliteAllTasks()
         {
-            taskDictionary.Clear();
+            _taskDictionary.Clear();
         }
 
         internal static void DeliteTask()
@@ -143,7 +167,7 @@ namespace TaskManager
             Console.WriteLine("Выберите задачу, которую хотите удалить:");
             BrowseAllTask();
             int key  = int.Parse(Console.ReadLine());
-            taskDictionary.Remove(key);
+            _taskDictionary.Remove(key);
             BrowseAllTask();
         }
 
@@ -153,9 +177,9 @@ namespace TaskManager
 
             BrowseAllTask();
 
-            int key = int.Parse(Console.ReadLine());
+            _key = AddKey();
 
-            _taskData = taskDictionary[key];
+            //_taskData = _taskDictionary[key];
             
             Console.WriteLine("Что вы хотите изменить?");
             Console.WriteLine("1. Задача");
@@ -166,19 +190,19 @@ namespace TaskManager
             if(key1 == 1)
             {
                 Console.WriteLine("Введите задачу");
-                _taskData[0] = Console.ReadLine();
+                _taskDictionary[_key].TaskName = Console.ReadLine();
             }
             if (key1 == 2)
             {
                 Console.WriteLine("Укажите приоритет");
-                _taskData[1] =  GetTaskStatus();
+                _taskDictionary[_key].Priority =  GetTaskStatus();
             }
             if(key1 == 3)
             {
                 Console.WriteLine("Укажите готовность");
-                _taskData[2] = TaskReady();
+                _taskDictionary[_key].Status = TaskReady();
             }
-            Console.WriteLine($"TaskName: {_taskData[0]}, Priority: {_taskData[1]}, Status: {_taskData[2]}");
+            BrowseAllTask();
         }
     }
 }

@@ -16,9 +16,10 @@ namespace TaskManager
                 Console.WriteLine("Выберите действие");
                 Console.WriteLine("1. Добавить задачу");
                 Console.WriteLine("2. Просмотр задач");
-                Console.WriteLine("3. Удалить задачу");
-                Console.WriteLine("4. Удалить все задачи");
-                Console.WriteLine("5. Изменить задачу");
+                Console.WriteLine("3. Просмотр определенных задач");
+                Console.WriteLine("4. Удалить задачу");
+                Console.WriteLine("5. Удалить все задачи");
+                Console.WriteLine("6. Изменить задачу");
            
                 var key = Console.ReadKey();
                 Interaction(key);
@@ -38,12 +39,15 @@ namespace TaskManager
                     TasksManager.BrowseAllTask();
                     break;
                 case ConsoleKey.D3:
-                    TasksManager.DeliteTask();
+                    TasksManager.SpecificTasks();
                     break;
                 case ConsoleKey.D4:
-                    TasksManager.DeliteAllTasks();
+                    TasksManager.DeliteTask();
                     break;
                 case ConsoleKey.D5:
+                    TasksManager.DeliteAllTasks();
+                    break;
+                case ConsoleKey.D6:
                     TasksManager.EditTask();
                     break;
             }
