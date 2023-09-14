@@ -119,6 +119,27 @@ namespace TaskManager
             return result;           
         }
 
+        public static void SortPriority (string text)
+        {
+            var hidePriority = _taskDictionary.Values.Where(task => task.Priority == text);
+
+            foreach (var task in hidePriority)
+            {
+                Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+            }
+        }
+
+
+        public static void SortStatus(string text)
+        {
+            var hidePriority = _taskDictionary.Values.Where(task => task.Status == text);
+
+            foreach (var task in hidePriority)
+            {
+                Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+            }
+        }
+
         public static void SpecificTasks()
         {
             Console.WriteLine("Какие дела вы хотите получить?");
@@ -127,25 +148,25 @@ namespace TaskManager
             Console.WriteLine("3. Вывести все данные со средним приоритетом");
             Console.WriteLine("4. Вывести все данные с низким приоритетом");
             Console.WriteLine("5. Вывести все незавершенные дела");
-            Console.WriteLine("5. Вывести все завершенные дела");
+            Console.WriteLine("6. Вывести все завершенные дела");
 
-            int key = int.Parse( Console.ReadLine());           
 
-            if (key == 1)
-            {
-                BrowseAllTask();
-            }
-            if(key == 2)
-            {
-                 
-              var hidePriority = _taskDictionary.Values.Where(task => task.Priority == "Высокий");
+            int key = int.Parse(Console.ReadLine());
 
-               foreach (var task in hidePriority)
-                 {
-                    Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
-                }
-                
-            }
+            if (key == 1)            
+                BrowseAllTask();            
+            if (key == 2)            
+                SortPriority("Высокий");
+            
+            if (key == 3)            
+                SortPriority("Средний");
+            
+            if (key == 4)
+                SortPriority("Низкий");
+            if (key == 5)
+                SortStatus("Не выполнено");
+            if (key == 6)
+                SortStatus("Выполнено");         
         }
         internal static void BrowseAllTask()
         {
