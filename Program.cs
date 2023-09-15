@@ -5,14 +5,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TaskManager
 {
     internal class Program
-    {
-        public static Tasks task = new Tasks();
-
+    {       
         static void Main(string[] args)
         {          
             while (true)
             {
-
                 Console.WriteLine("Выберите действие");
                 Console.WriteLine("1. Добавить задачу");
                 Console.WriteLine("2. Просмотр задач");
@@ -29,7 +26,6 @@ namespace TaskManager
 
         public static void Interaction(ConsoleKeyInfo key)
         {
-
             switch (key.Key)
             {
                 case ConsoleKey.D1:

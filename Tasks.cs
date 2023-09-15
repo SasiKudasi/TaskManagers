@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace TaskManager
 {
         public  class Tasks
-        {
-      
+        {      
         public int Id { get; set; }
         public string TaskName {  get; set; }        
         public string Priority { get; set; }
@@ -19,14 +18,7 @@ namespace TaskManager
             TaskName = taskName;
             Priority = priority;
             Status = status;
-        }
-
-        
-
-       
-
-       
+        }                 
     }
-
 }
 

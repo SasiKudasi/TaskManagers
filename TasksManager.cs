@@ -4,8 +4,7 @@ using ConsoleApp1;
 namespace TaskManager
 {
     public class TasksManager
-    {        
-        
+    {                
         private static Tasks _task = new Tasks();
      
         private static Dictionary<int, Tasks> _taskDictionary = new Dictionary<int, Tasks>();
@@ -13,9 +12,9 @@ namespace TaskManager
         private static AppDbContext _appDbContext = new AppDbContext();
                        
         internal static void AddTask()
-        {            
-           _task.Id = AddKey();
-           AddTaskName();
+        {
+            _task.Id = AddKey();            
+           Result.AddTaskName(_task.TaskName);
            _task.Priority = Result.GetTaskStatus();
            _task.Status =  Result.TaskReady();            
 
@@ -24,7 +23,7 @@ namespace TaskManager
             _appDbContext.Add(_taskDictionary[_task.Id]);
             if (_taskDictionary.ContainsKey(_task.Id))
             {                
-                Console.WriteLine($"TaskName: {_task.TaskName}, Priority: {_task.Priority}, Status: {_task.Status}");                                
+                Console.WriteLine($"TaskId: {_task.Id} TaskName: {_task.TaskName}, Priority: {_task.Priority}, Status: {_task.Status}");                                
             }
             _appDbContext.SaveChanges();
         }
@@ -36,11 +35,6 @@ namespace TaskManager
             return key;
         }
 
-        public static void AddTaskName()
-        {
-            Console.WriteLine("Введите задачу:");
-            _task.TaskName = Console.ReadLine();
-        }
         
        
         public static void SortPriority (string text)
@@ -52,7 +46,6 @@ namespace TaskManager
                 Console.WriteLine($"TaskId: {task.Id} TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
             }
         }
-
 
         public static void SortStatus(string text)
         {
@@ -92,6 +85,7 @@ namespace TaskManager
             if (key == 6)
                 SortStatus("Выполнено");         
         }
+
         internal static void BrowseAllTask()
         {
             var allTasks = _appDbContext.Tasks.ToList();
@@ -139,7 +133,7 @@ namespace TaskManager
             if (key1 == 1)
             {
                 Console.WriteLine("Введите задачу");
-                taskUpdate.TaskName = Console.ReadLine();                
+                Result.AddTaskName(taskUpdate.TaskName);               
             }
             if (key1 == 2)
             {

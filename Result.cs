@@ -1,11 +1,19 @@
 ﻿using System;
 using TaskManager;
 
-public static class Result
+public class Result
 {
-    private static Tasks _task = new Tasks();    
-    	
-        public static string GetTaskStatus()
+    private static Tasks _task = new Tasks();
+
+
+    public static string AddTaskName(string prop)
+    {
+        Console.WriteLine("Введите задачу:");
+        prop = Console.ReadLine();
+        return prop;
+    }
+
+    public static string GetTaskStatus()
         {
             Console.WriteLine("Выберите приоритет задачи:");
             Console.WriteLine("1. Высокий");
