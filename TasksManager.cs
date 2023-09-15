@@ -5,11 +5,11 @@ namespace TaskManager
 {
     public class TasksManager
     {                
-        private static Tasks _task = new Tasks();
+        private static Tasks _task = new();
      
-        private static Dictionary<int, Tasks> _taskDictionary = new Dictionary<int, Tasks>();
+        private static Dictionary<int, Tasks> _taskDictionary = new();
 
-        private static AppDbContext _appDbContext = new AppDbContext();
+        private static AppDbContext _appDbContext = new();
                        
         internal static void AddTask()
         {           
@@ -54,9 +54,7 @@ namespace TaskManager
                Console.WriteLine("Неправильный формат, попробуйте еще раз\n");   
                return AddKey();
             }
-        }
-
-        
+        }        
        
         public static void SortPriority (string text)
         {
@@ -102,7 +100,12 @@ namespace TaskManager
             if (key == 5)
                 SortStatus("Не выполнено");
             if (key == 6)
-                SortStatus("Выполнено");         
+                SortStatus("Выполнено");
+            if(key >6 || key <1)
+            {
+                Console.WriteLine("Нет такого варианта, попробуйте еще раз \n");
+                SpecificTasks();
+            }
         }
 
         internal static void BrowseAllTask()
@@ -161,6 +164,11 @@ namespace TaskManager
             {
                 Console.WriteLine("Укажите готовность");
                 taskUpdate.Status = Result.TaskReady();
+            }
+            if( key1 >3 || key1<1)
+            {
+                Console.WriteLine("Нет такого варианта, попробуйте еще раз \n");
+                EditTask();
             }
             _appDbContext.SaveChanges();
             BrowseAllTask();

@@ -4,9 +4,7 @@ using TaskManager;
 public class Result
 {
     private static Tasks _task = new Tasks();
-
-
-   
+      
 
     public static string GetTaskStatus()
         {
