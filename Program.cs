@@ -6,7 +6,7 @@ namespace TaskManager
 {
     internal class Program
     {
-        public static Task task = new Task();
+        public static Tasks task = new Tasks();
 
         static void Main(string[] args)
         {          

@@ -1,28 +1,33 @@
 ﻿
+using ConsoleApp1;
+
 namespace TaskManager
 {
     public class TasksManager
     {
-        private static int _key;
+       
 
-        private static Task _task = new Task();
+        private static Tasks _task = new Tasks();
      
-        private static Dictionary<int, Task> _taskDictionary = new Dictionary<int, Task>();
+        private static Dictionary<int, Tasks> _taskDictionary = new Dictionary<int, Tasks>();
 
+        private static AppDbContext _appDbContext = new AppDbContext();
                        
         internal static void AddTask()
         {
-            _key = AddKey();
+            _task.Id = AddKey();
             AddTaskName();            
             GetTaskStatus();
-            TaskReady();
+            TaskReady();            
 
-            _taskDictionary.Add(_key, new Task( _task.TaskName, _task.Priority, _task.Status));
-                        
-            if(_taskDictionary.ContainsKey(_key))
+            _taskDictionary.Add(_task.Id, new Tasks( _task.TaskName, _task.Priority, _task.Status));
+
+            _appDbContext.Add(_taskDictionary[_task.Id]);
+            if (_taskDictionary.ContainsKey(_task.Id))
             {                
                 Console.WriteLine($"TaskName: {_task.TaskName}, Priority: {_task.Priority}, Status: {_task.Status}");                                
             }
+            _appDbContext.SaveChanges();
         }
 
         private static int AddKey()
@@ -117,22 +122,22 @@ namespace TaskManager
 
         public static void SortPriority (string text)
         {
-            var hidePriority = _taskDictionary.Values.Where(task => task.Priority == text);
+            var priority = _appDbContext.Tasks.Where(task => task.Priority == text);
 
-            foreach (var task in hidePriority)
+            foreach (var task in priority)
             {
-                Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+                Console.WriteLine($"TaskId: {task.Id} TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
             }
         }
 
 
         public static void SortStatus(string text)
         {
-            var hidePriority = _taskDictionary.Values.Where(task => task.Status == text);
+            var status = _appDbContext.Tasks.Where(task => task.Status == text);
 
-            foreach (var task in hidePriority)
+            foreach (var task in status)
             {
-                Console.WriteLine($"TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+                Console.WriteLine($"TaskId: {task.Id} TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
             }
         }
 
@@ -166,17 +171,20 @@ namespace TaskManager
         }
         internal static void BrowseAllTask()
         {
-            
+            var allTasks = _appDbContext.Tasks.ToList();
 
-            foreach (var kvp in _taskDictionary)
+            foreach (var task in allTasks)
             {
-                Console.WriteLine($"Key: {kvp.Key},name {kvp.Value.TaskName}, priority {kvp.Value.Priority}, status {kvp.Value.Status}");
-            }
+                Console.WriteLine($"TaskId: {task.Id} TaskName: {task.TaskName}, Priority: {task.Priority}, Status: {task.Status}");
+            }                       
         }
 
         internal static void DeliteAllTasks()
         {
-            _taskDictionary.Clear();
+            BrowseAllTask();
+            var allTasks = _appDbContext.Tasks.ToList();
+            _appDbContext.Tasks.RemoveRange(allTasks);
+            _appDbContext.SaveChanges();            
         }
 
         internal static void DeliteTask()
@@ -184,7 +192,9 @@ namespace TaskManager
             Console.WriteLine("Выберите задачу, которую хотите удалить:");
             BrowseAllTask();
             int key  = int.Parse(Console.ReadLine());
-            _taskDictionary.Remove(key);
+           var removeTask = _appDbContext.Tasks.Find(key);   
+            _appDbContext.Tasks.Remove(removeTask);
+            _appDbContext.SaveChanges();
             BrowseAllTask();
         }
 
@@ -194,7 +204,7 @@ namespace TaskManager
 
             BrowseAllTask();
 
-            _key = AddKey();
+            _task.Id = AddKey();
                         
             Console.WriteLine("Что вы хотите изменить?");
             Console.WriteLine("1. Задача");
@@ -202,21 +212,23 @@ namespace TaskManager
             Console.WriteLine("3. Статус");
             
             var key1 = int.Parse(Console.ReadLine());
-            if(key1 == 1)
+            var taskUpdate =  _appDbContext.Tasks.Find(_task.Id);
+            if (key1 == 1)
             {
                 Console.WriteLine("Введите задачу");
-                _taskDictionary[_key].TaskName = Console.ReadLine();
+                taskUpdate.TaskName = Console.ReadLine();                
             }
             if (key1 == 2)
             {
                 Console.WriteLine("Укажите приоритет");
-                _taskDictionary[_key].Priority =  GetTaskStatus();
+                taskUpdate.Priority =  GetTaskStatus();
             }
             if(key1 == 3)
             {
                 Console.WriteLine("Укажите готовность");
-                _taskDictionary[_key].Status = TaskReady();
+                taskUpdate.Status = TaskReady();
             }
+            _appDbContext.SaveChanges();
             BrowseAllTask();
         }
     }
