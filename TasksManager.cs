@@ -12,15 +12,16 @@ namespace TaskManager
         private static AppDbContext _appDbContext = new AppDbContext();
                        
         internal static void AddTask()
-        {
+        {           
             _task.Id = AddKey();            
-           Result.AddTaskName(_task.TaskName);
+           AddTaskName();
            _task.Priority = Result.GetTaskStatus();
            _task.Status =  Result.TaskReady();            
 
             _taskDictionary.Add(_task.Id, new Tasks( _task.TaskName, _task.Priority, _task.Status));
 
             _appDbContext.Add(_taskDictionary[_task.Id]);
+
             if (_taskDictionary.ContainsKey(_task.Id))
             {                
                 Console.WriteLine($"TaskId: {_task.Id} TaskName: {_task.TaskName}, Priority: {_task.Priority}, Status: {_task.Status}");                                
@@ -28,11 +29,26 @@ namespace TaskManager
             _appDbContext.SaveChanges();
         }
 
+        public static void AddTaskName()
+        {
+            Console.WriteLine("Введите задачу:");
+            _task.TaskName = Console.ReadLine();
+        }
+
         private static int AddKey()
         {
             Console.WriteLine("Введите новмер задачи");
-            int key = int.Parse(Console.ReadLine());
-            return key;
+            try
+            {
+                int key = int.Parse(Console.ReadLine());
+
+                return key;
+            }
+            catch (Exception ex)
+            {
+               Console.WriteLine("Неправильный формат, попробуйте еще раз\n");   
+               return AddKey();
+            }
         }
 
         
@@ -73,11 +89,9 @@ namespace TaskManager
             if (key == 1)            
                 BrowseAllTask();            
             if (key == 2)            
-                SortPriority("Высокий");
-            
+                SortPriority("Высокий");            
             if (key == 3)            
-                SortPriority("Средний");
-            
+                SortPriority("Средний");            
             if (key == 4)
                 SortPriority("Низкий");
             if (key == 5)
@@ -118,9 +132,7 @@ namespace TaskManager
         internal static void EditTask()
         {
             Console.WriteLine("Выберите задачу");
-
             BrowseAllTask();
-
             _task.Id = AddKey();
                         
             Console.WriteLine("Что вы хотите изменить?");
@@ -133,7 +145,7 @@ namespace TaskManager
             if (key1 == 1)
             {
                 Console.WriteLine("Введите задачу");
-                Result.AddTaskName(taskUpdate.TaskName);               
+                AddTaskName();               
             }
             if (key1 == 2)
             {

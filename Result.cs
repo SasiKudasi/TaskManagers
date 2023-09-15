@@ -6,12 +6,7 @@ public class Result
     private static Tasks _task = new Tasks();
 
 
-    public static string AddTaskName(string prop)
-    {
-        Console.WriteLine("Введите задачу:");
-        prop = Console.ReadLine();
-        return prop;
-    }
+   
 
     public static string GetTaskStatus()
         {
@@ -34,6 +29,7 @@ public class Result
             {
                 return _task.Priority = "Средний";
             }
+            
             return _task.Priority;
         }
 
