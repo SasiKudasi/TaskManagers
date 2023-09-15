@@ -33,6 +33,11 @@ namespace TaskManager
         {
             Console.WriteLine("Введите задачу:");
             _task.TaskName = Console.ReadLine();
+            if(_task.TaskName == null || _task.TaskName == "")
+            {
+                Console.WriteLine("Строка не может быть пустая, введите значение:\n");
+                AddTaskName();
+            }
         }
 
         private static int AddKey()
